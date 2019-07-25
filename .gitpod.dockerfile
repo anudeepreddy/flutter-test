@@ -1,8 +1,8 @@
 FROM gitpod/workspace-full
 
 # add your tools here
-RUN apt-get update \
-    && apt-get install xz-utils -y \
-    && apt-get install libglu1-mesa -y \
-    && apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
+RUN sudo apt-get update \
+    && sudo apt-get install xz-utils -y \
+    && sudo apt-get install libglu1-mesa -y \
+    && sudo apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
