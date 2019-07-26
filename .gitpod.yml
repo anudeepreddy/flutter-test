@@ -3,3 +3,8 @@ image:
 tasks:
 - init: wget https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.7.8+hotfix.4-stable.tar.xz &&
         tar xf ./flutter_linux_v1.7.8+hotfix.4-stable.tar.xz && export PATH="$PATH:$(pwd)/flutter/bin"
+- init: wget https://dl.google.com/dl/android/studio/ide-zips/3.4.2.0/android-studio-ide-183.5692245-linux.tar.gz &&
+        tar xvzf android-studio*.tar.gz && rm android-studio*.tar.gz && cd android*/bin && ./studio.sh
+vscode:
+  extensions:
+    - Dart-Code.flutter@3.2.0:SPSqFb9QJogAy4Qss2WV/w==
