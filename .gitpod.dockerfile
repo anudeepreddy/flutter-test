@@ -8,7 +8,7 @@ ENV ANDROID_HOME=/home/gitpod/android-sdk \
     ANDROID_NDK=/home/gitpod/android-ndk \
 # Get the latest version from https://developer.android.com/ndk/downloads/index.html
     ANDROID_NDK_VERSION=19\
-    FLUTTER_HOME=/home/gitpod/flutter \
+    FLUTTER_HOME=/home/gitpod/flutter/bin \
     FLUTTER_VERSION=v1.7.8+hotfix.4-stable \
     PATH=/usr/lib/dart/bin:$FLUTTER_HOME/bin:$ANDROID_HOME/tools/bin:$PATH
 
