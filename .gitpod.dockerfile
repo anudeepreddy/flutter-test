@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full
+FROM gitpod/workspace-full-vnc
 
 RUN sudo apt-get update \
     && sudo apt-get install xz-utils -y \
@@ -6,5 +6,4 @@ RUN sudo apt-get update \
     && sudo add-apt-repository ppa:webupd8team/java \
     && sudo apt-get update \
     && sudo apt-get install oracle-java8-installer \
-    && sudo apt-get install oracle-java8-set-default \
-    && sudo apt-get clean && sudo rm -rf /var/cache/apt/* && sudo rm -rf /var/lib/apt/lists/* && sudo rm -rf /tmp/*
+    && sudo apt-get install oracle-java8-set-default
