@@ -111,7 +111,9 @@ RUN echo "Installing emulator " && \
 
 RUN echo "Installing system images " && \
     yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
-        "system-images;android-25;google_apis;x86_64" > /dev/null
+        "system-images;android-25;google_apis;x86_64"\
+        "system-images;android-25;google_apis;armeabi-v7a" \
+        "system-images;android-25;google_apis;arm64-v8a" > /dev/null
 
 # Install Flutter sdk
 RUN cd /home/gitpod && \
