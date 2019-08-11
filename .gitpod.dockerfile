@@ -38,6 +38,7 @@ RUN sudo apt-get update && apt-get install -y --no-install-recommends \
     && echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" >> /etc/apt/sources.list \
     && wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add - \
     && wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add - \
+    && sudo apt install linux-headers-generic \
     && sudo apt-get update && apt-get install -y \
         virtualbox-5.0 \ 
     && sudo apt-get install -y virtualbox-guest-x11
