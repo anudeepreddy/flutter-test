@@ -1,4 +1,3 @@
-
 FROM gitpod/workspace-full-vnc
 
 
@@ -10,6 +9,7 @@ ENV ANDROID_HOME=/home/gitpod/android-sdk \
     ANDROID_NDK_VERSION=19\
     FLUTTER_HOME=/home/gitpod/flutter/bin \
     FLUTTER_VERSION=v1.7.8+hotfix.4-stable \
+    GENY_VERSION=2.7.2 \
     PATH=/usr/lib/dart/bin:$FLUTTER_HOME/bin:$ANDROID_HOME/tools/bin:$PATH
 
 ENV ANDROID_SDK_HOME="$ANDROID_HOME"
@@ -17,7 +17,7 @@ ENV ANDROID_NDK_HOME="$ANDROID_NDK/android-ndk-r$ANDROID_NDK_VERSION"
 ENV JAVA_HOME=/home/gitpod/.sdkman/candidates/java/current
 
 USER root
-    
+
 RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list && \
     apt-get update && \
@@ -27,12 +27,42 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*;
 
-RUN apt-get update -qqy \
-    && apt-get -qqy install libglu1 qemu-kvm libvirt-dev virtinst bridge-utils msr-tools kmod \
-    && wget -q http://security.ubuntu.com/ubuntu/pool/main/c/cpu-checker/cpu-checker_0.7-0ubuntu7_amd64.deb \
-    && dpkg -i cpu-checker_0.7-0ubuntu7_amd64.deb \
-    && apt-get install -f
-    
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        linux-headers-4.4.0-22-generic \
+        openssl \
+        wget \
+    \
+    # Install Virtual Box 5.0
+    && wget -q --directory-prefix=/tmp/ "http://files2.genymotion.com/genymotion/genymotion-${GENY_VERSION}/genymotion-${GENY_VERSION}-linux_x64.bin" \
+    && echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" >> /etc/apt/sources.list \
+    && wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add - \
+    && wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add - \
+    && apt-get update && apt-get install -y \
+        virtualbox-5.0 \
+    \
+    # Install Genymotion
+    && mkdir -p /genymotion/ \
+    && apt-get install -y --no-install-recommends \
+        bzip2 \
+        libgstreamer-plugins-base0.10-dev \
+        libxcomposite-dev \
+        libxslt1.1 \
+    && chmod +x /tmp/genymotion-${GENY_VERSION}-linux_x64.bin \
+    && mkdir -p /root/.Genymobile/ \
+    # Weird AUFs bug errors with 'file in use', fixed with sync command
+    && sync \
+    && echo 'Y' | /tmp/genymotion-${GENY_VERSION}-linux_x64.bin -d / \
+    \
+    # Cleanup
+    && rm -f /tmp/genymotion-${GENY_VERSION}-linux_x64.bin \
+    && apt-get autoremove -y --purge \
+        wget \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+    VOLUME ["/tmp/.X11-unix", "/root/"]
+
+
 USER gitpod
 
 # Install Android SDK
