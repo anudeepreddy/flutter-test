@@ -39,10 +39,11 @@ RUN sudo apt-get update && apt-get install -y --no-install-recommends \
     && wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add - \
     && wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add - \
     && sudo apt-get update && apt-get install -y \
-        virtualbox-5.0 \
-    \
+        virtualbox-5.0 \ 
+    && sudo apt-get install -y virtualbox-guest-x11
+    
     # Install Genymotion
-    && sudo mkdir -p /genymotion/ \
+    RUN sudo mkdir -p /genymotion/ \
     && sudo apt-get install -y --no-install-recommends \
         bzip2 \
         libgstreamer-plugins-base0.10-dev \
@@ -56,9 +57,6 @@ RUN sudo apt-get update && apt-get install -y --no-install-recommends \
     \
     # Cleanup
     && sudo rm -f /tmp/genymotion-${GENY_VERSION}-linux_x64.bin \
-    && sudo apt-get autoremove -y --purge \
-        wget \
-    && sudo apt-get clean \
     && sudo rm -rf /var/lib/apt/lists/*
     VOLUME ["/tmp/.X11-unix", "/root/"]
 
